@@ -15,6 +15,7 @@ const auth = createSlice({
             state.user.push(action.payload)
         },
         updateAuth: (state, action) => {
+            console.log(action.payload);
             const {index, ...updatedUserData } = action.payload;
             console.log(updatedUserData);
             state.user[index]=updatedUserData;

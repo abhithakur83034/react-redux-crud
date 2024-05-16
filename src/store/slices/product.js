@@ -10,6 +10,12 @@ const product = createSlice({
         createProduct:(state,action)=>{
           state.products.push(action.payload);
         },
+        updateProduct:(state,action)=>{
+            console.log(">>>>>>>>>",action.payload);
+            const {index, ...updatedProductData } = action.payload;
+            console.log(updatedProductData);
+            state.products[index] = { ...state.products[index], ...updatedProductData };
+       },
         addToCart:(state,action)=>{
             console.log(action.payload);
             let pName = action.payload.proName;
@@ -54,7 +60,7 @@ const product = createSlice({
         },
     }
 });
-export const {createProduct,addToCart,increment,decrement,removeFromCart,removeProduct} = product.actions
+export const {createProduct,updateProduct,addToCart,increment,decrement,removeFromCart,removeProduct} = product.actions
 export const getpro = (state) => state.product.products;
 export const getCartData = (state) => state.product.cartProduct;
 export default product.reducer;

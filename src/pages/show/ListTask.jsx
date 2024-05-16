@@ -14,6 +14,15 @@ const ListTask = () => {
 console.log(Auth);
 console.log(Product);
 console.log(cartProduct);
+
+
+
+let totalAmmount = cartProduct.reduce((total,item)=>total + item.quantity * item.proPrice, 0)
+let totalQuantity = cartProduct.reduce((total,item)=>total + item.quantity, 0)
+
+console.log(totalAmmount);
+console.log(totalQuantity);
+
   const handleUpdate = (index,type) => {
     console.log(index);
     if(type === 'auth'){
@@ -177,7 +186,10 @@ console.log(cartProduct);
               ))
             }
           </tbody>
-        </Table>
+          <p>Total Price : {totalAmmount}</p>
+          <p>Total Unit : {totalQuantity}</p>
+          </Table>
+
          )
         :
         <h1>No Data found!</h1>

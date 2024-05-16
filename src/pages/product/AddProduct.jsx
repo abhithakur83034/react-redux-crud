@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Col, Container, Row } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
-import { createProduct, getpro } from '../../store/slices/product';
-import { useNavigate } from 'react-router-dom';
+import { createProduct, getpro,updateProduct } from '../../store/slices/product';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const AddProduct = () => {
     const [proName, setProName] = useState("");
@@ -12,15 +12,26 @@ const AddProduct = () => {
     const [proDescription, setProDescription] = useState('');
     const [proDescriptionErr, setProDescriptionErr] = useState('');
     const [quantity, setQuantity] = useState(1); // Default quantity to 1
-
+    const [getPro,setGetPro] = useState({});
     const dispatch = useDispatch();
     const getProducts = useSelector(getpro);
     const navigate = useNavigate();
+const location = useLocation();
+const proIndex = location?.state?.proIndex;
+console.log(proIndex);
+console.log(getPro);
+
 
     useEffect(() => {
-        console.log(getProducts);
-    }, [getProducts]);
+      setGetPro(getProducts[proIndex]);
+      setProName(getProducts[proIndex]?.proName);
+      setProPrice(getProducts[proIndex]?.proPrice);
+      setProDescription(getProducts[proIndex]?.proDescription);
+      setQuantity(getProducts[proIndex]?.quantity)
+    }, [proIndex]);
 
+
+    console.log(getPro);
     const handleSubmit = (e) => {
         e.preventDefault();
 
@@ -50,14 +61,23 @@ const AddProduct = () => {
                 quantity,
             };
 
-            dispatch(createProduct(data));
-            navigate('/');
+            console.log(data);
+
+            if (proIndex !== undefined && proIndex !== null) {
+                data.index = proIndex;
+                dispatch(updateProduct(data));
+            } else {
+                dispatch(createProduct(data));
+            }
+            
+            navigate('/')
+
         }
     };
 
     return (
         <Container>
-            <h1 className='text-center'>Add Your Product</h1>
+            <h1 className='text-center'>{getPro?"Update":"Add"} Your Product</h1>
             <Row>
                 <Col></Col>
                 <Col>
@@ -102,7 +122,7 @@ const AddProduct = () => {
                             />
                         </p>
                         <p>
-                            <input type='submit' value="Create" className='form-control' />
+                            <input type='submit' value={getPro?"Update":"Create"} className='form-control' />
                         </p>
                     </form>
                 </Col>
