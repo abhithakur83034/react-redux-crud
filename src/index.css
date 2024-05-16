@@ -11,3 +11,21 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.err{
+  color: red;
+}
+
+.lnk{
+  text-decoration: none;
+  color: aliceblue;
+  font-size: 20px;
+}
+
+.bg{
+  background: darkgray;
+}
+.main{
+  font-size: 30px;
+  font-weight: 700;
+}
